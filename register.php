@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">	
 <head>
+<meta name="theme-color" content="#42bcf4">
 	<title>Register | EdVu</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	 <meta charset="utf-8"> 

@@ -44,3 +44,8 @@ body{
 	position: absolute;
 	height: 50%;
 }
+.hr1{
+	color: #f00;
+	background-color: #f00;
+	width:80%;
+}

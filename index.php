@@ -29,6 +29,7 @@
 <html lang="en">	
 <head>
 	<title>Home | EdVu</title>
+	<meta name="theme-color" content="#42bcf4">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	 <meta charset="utf-8"> 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -153,7 +154,7 @@ mysqli_close($con);
       				<form method="POST" action="index.php?submit=true">
 					<div class="form-group">
   					<label for="usr"><h3>usrid:</h3></label>
-  					<input type="text" class="form-control" name="userid" id="usr">
+  					<input type="text" class="form-control" name="userid" id="usr"  autocomplete="off">
 					</div>
 					<div class="form-group">
   					<label for="pwd"><h3>Password:</h3></label>

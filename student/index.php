@@ -31,7 +31,7 @@
 		});
 	});
 	</script>
-	
+	<meta name="theme-color" content="#42bcf4">
 </head>
 
 <body>

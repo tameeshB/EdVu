@@ -31,7 +31,7 @@
 		});
 	});
 	</script>
-	
+	<meta name="theme-color" content="#42bcf4">
 </head>
 
 <body>
@@ -79,12 +79,18 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
 		<?PHP  echo '<br><br>Hi '.$fname[0].'! Glad to see you :)';  ?>
 		<div class="row">
 			<div class="col-sm-12"><br><br>
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,newCourse.php">Create new course</button><br><br>
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,newCourse.php">View courses</button><br><br><!-- Add students option in this plus create new course -->
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,newCourse.php">Add a class</button><br><br>
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Mark attendance</button><br><br>
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Upload Coursework</button><br><br>
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Upload Homework</button><br><br>
+				<button type="button" class="btn btn-success goto" style="width:90%" data="1,newCourse.php">Create new course</button><br><br>
+				<button type="button" class="btn btn-info goto" style="width:90%" data="1,newCourse.php">View courses</button><br><br><!-- Add students option in this plus create new course -->
+				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Upload Coursework</button><br><hr class="hr1"><br>
+				<button type="button" class="btn btn-success goto" style="width:90%" data="1,newCourse.php">Schedule a class</button><br><br>
+				<button type="button" class="btn btn-info goto" style="width:90%" data="1,attend.php">Mark attendance</button><br><br>
+				
+				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Upload Homework</button><br><hr class="hr1"><br>
+				<button type="button" class="btn btn-success goto" style="width:90%" data="1,attend.php">Add an assessment</button><br><br><!-- notify for dates from here -->
+				<button type="button" class="btn btn-info goto" style="width:90%" data="1,attend.php">View assessments</button><br><br><!-- add marks here -->
+				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Add assignments</button><br><hr class="hr1"><br>
+				<button type="button" class="btn btn-success goto" style="width:90%" data="1,attend.php">Add a project</button><br><br>
+				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,newCourse.php">Declare a holiday</button><br><br>
 				<button type="button" class="btn btn-danger goto" style="width:90%" data="1,newCourse.php">Call for a PTM</button><br><br>
 
 				
