@@ -192,12 +192,13 @@ mysqli_close($con);
       				<form method="post" action="register.php?submit=true">
   					<label for="name"><h3>Name:</h3></label>
   					<input type="text" class="form-control" value="<?PHP if($_GET['submit']=='true'){echo $_POST['name'];}?>" id="name" name="name">
-  					<label for="email"><h3>Account type:</h3></label>
+  					<label for="acctype"><h3>Account type:</h3></label>
   					<select class="form-control" name="type" id="acctype">
   						<option value="s">Student</option>
   						<option value="p">Parent</option>
   						<option value="t">Teacher</option>	
 					</select>
+          
 					<label for="studid" id="ls_uid"><h3>Enter ward's userid:</h3></label>
   					<input type="text" class="form-control" value="<?PHP if($_GET['submit']=='true'){echo $_POST['studid'];}?>" id="s_uid" name="studid">
 					<label for="email"><h3>email:</h3></label>

@@ -75,12 +75,41 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
 	<div class="container"><center>
 		<div class="row">
 			<div class="col-sm-12" id="head">EdVu<img id="logout" src="../logout.png"></div>
-		</div>
-		<?PHP  echo '<br><br>Hi '.$fname[0].'! Glad to see you :)';  ?>
+		</div><br><br>
+		<?PHP 
+		if(!isset($_GET['action'])){ echo 'Hi '.$fname[0].'! Glad to see you :)'; }
+		else{
+			if($_GET['action']=='newBatch'){
+				if ($result5=mysqli_query($con,"INSERT INTO `abatches` (`name`) VALUES ('".$_POST['batchname']."');"))
+  					{
+  						echo '<div class="panel panel-success" id="success">
+      			<div class="panel-heading" id="success_content">New Batch Created!</div>
+     
+    		</div>';
+  					}
+			}//end of action==newBatch condition
+			elseif($_GET['action']=='createdNewCourse'){
+				
+  						echo '<div class="panel panel-success" id="success">
+      			<div class="panel-heading" id="success_content">New Course Created!</div>
+     
+    		</div>';
+  					
+			}
+		}
+		 ?>
+		
 		<div class="row">
 			<div class="col-sm-12"><br><br>
 				<button type="button" class="btn btn-success goto" style="width:90%" data="1,newCourse.php">Create new course</button><br><br>
-				<button type="button" class="btn btn-info goto" style="width:90%" data="1,newCourse.php">View courses</button><br><br><!-- Add students option in this plus create new course -->
+				<button type="button" class="btn btn-info" style="width:90%" data-toggle="collapse" data-target="#viewC">View courses</button><br><br><!-- Add students option in this plus create new course -->
+				<div id="viewC" class="collapse">
+					<div class="form-group">
+					<?PHP 
+						
+					?>
+					</div>
+				</div>
 				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Upload Coursework</button><br><hr class="hr1"><br>
 				<button type="button" class="btn btn-success goto" style="width:90%" data="1,newCourse.php">Schedule a class</button><br><br>
 				<button type="button" class="btn btn-info goto" style="width:90%" data="1,attend.php">Mark attendance</button><br><br>
@@ -90,6 +119,18 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
 				<button type="button" class="btn btn-info goto" style="width:90%" data="1,attend.php">View assessments</button><br><br><!-- add marks here -->
 				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Add assignments</button><br><hr class="hr1"><br>
 				<button type="button" class="btn btn-success goto" style="width:90%" data="1,attend.php">Add a project</button><br><br>
+				<button type="button" class="btn btn-success" data-toggle="collapse" data-target="#newBatch" style="width:90%" >Create a new batch</button>
+				
+				<div id="newBatch" class="collapse">
+					<div class="form-group">
+					<form method="post" action="index.php?action=newBatch">
+  						<label for="usr"><h3>Name of batch:</h3></label>
+  						<input type="text" style="width:80%" class="form-control" name="batchname" id="batchname"  autocomplete="off">
+  					<input type="submit" value="Create!"  class="btn btn-success" style="width:80%">	
+  					</form>	
+					</div>
+				</div>
+				<br><br>
 				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,newCourse.php">Declare a holiday</button><br><br>
 				<button type="button" class="btn btn-danger goto" style="width:90%" data="1,newCourse.php">Call for a PTM</button><br><br>
 

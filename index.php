@@ -83,12 +83,13 @@ $usernameo=explode('.', $_POST['userid']);
 		// echo'$("#error_wrap").fadeIn();';
   // 			echo'$("#error").text("valid");';
 if ($result=mysqli_query($con,$sql))
-  {
+  { while ($row=mysqli_fetch_row($result)){$_SESSION['name']=$row[1];}
   $num_rows = mysqli_num_rows($result);
   if($num_rows>0){
   	if($usernameo[0]=='s'){
 			echo 'window.location="student/";});</script></head></html>';
 			$_SESSION['usr']=$_POST['userid'];
+
   			exit();
 		}elseif($usernameo[0]=='t'){
 			echo 'window.location="teacher/";});</script></head></html>';
@@ -173,5 +174,9 @@ mysqli_close($con);
 			<div class="col-sm-12"></div>
 		</div>
 	</center></div>
+	<br>
+	<br>
+	<br>
+	
 </body>
 </html>
