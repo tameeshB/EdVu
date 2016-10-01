@@ -14,6 +14,9 @@
 	</style>
 	<script>
 	$(document).ready(function(){
+			$(".btn").click(function(){
+				$("#success").fadeOut();
+			});
 			$(".goto").click(function(){
     		var string = $(this).attr('data').split(',') ;
         	var type= string[0];
@@ -29,6 +32,7 @@
 		$("#logout").click(function(){
 			window.location='../logout.php';
 		});
+		$("#ptabtn").click(function(){$("html, body").animate({ scrollTop: $(document).height() }, 1000);});
 	});
 	</script>
 	<meta name="theme-color" content="#42bcf4">
@@ -95,6 +99,30 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
      
     		</div>';
   					
+			}elseif($_GET['action']=='holiday'){
+				if ($result5=mysqli_query($con,"INSERT INTO `days` (`date`,`type`,`tid`) VALUES ('".$_POST['hdate']."','2','".$userarr[1]."');"))
+  					{
+  						echo '<div class="panel panel-success" id="success">
+      			<div class="panel-heading" id="success_content">Holiday added!</div>
+     
+    		</div>';
+  					}
+			}elseif($_GET['action']=='addClass'){
+				if ($result50=mysqli_query($con,"INSERT INTO `days` (`date`,`type`,`tid`,`cid`) VALUES ('".$_POST['cdate']."','1','".$userarr[1]."','".$_POST['cid']."');"))
+  					{
+  						echo '<div class="panel panel-success" id="success">
+      			<div class="panel-heading" id="success_content">Class added!</div>
+     
+    		</div>';
+  					}
+			}elseif($_GET['action']=='ptm'){
+				if ($result50=mysqli_query($con,"INSERT INTO `days` (`date`,`type`,`tid`) VALUES ('".$_POST['pdate']."','4','".$userarr[1]."');"))
+  					{
+  						echo '<div class="panel panel-danger" id="success">
+      			<div class="panel-heading" id="success_content">Pta added!</div>
+     
+    		</div>';
+  					}
 			}
 		}
 		 ?>
@@ -104,21 +132,52 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
 				<button type="button" class="btn btn-success goto" style="width:90%" data="1,newCourse.php">Create new course</button><br><br>
 				<button type="button" class="btn btn-info" style="width:90%" data-toggle="collapse" data-target="#viewC">View courses</button><br><br><!-- Add students option in this plus create new course -->
 				<div id="viewC" class="collapse">
-					<div class="form-group">
+					<ul>
 					<?PHP 
-						
+						if ($result24=mysqli_query($con,"SELECT * FROM `course` where `tid`=".$userarr[1]))
+  					{
+ 		 				
+  				 		while ($rowewe4=mysqli_fetch_row($result24))
+  			 			{
+
+ 		       				echo '<li>'.$rowewe4[1].'</li>';
+
+  			 			}
+  			 }
 					?>
-					</div>
+					
+					</ul>
 				</div>
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Upload Coursework</button><br><hr class="hr1"><br>
-				<button type="button" class="btn btn-success goto" style="width:90%" data="1,newCourse.php">Schedule a class</button><br><br>
-				<button type="button" class="btn btn-info goto" style="width:90%" data="1,attend.php">Mark attendance</button><br><br>
+				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">-------Upload Coursework</button><br><hr class="hr1"><br>
+				<button type="button" class="btn btn-success" data-toggle="collapse" data-target="#addClass" style="width:90%" >Schedule a class</button>
+				<div id="addClass" class="collapse">
+					<div class="form-group">
+					<form method="post" action="index.php?action=addClass">
+						<label for="hdate"><h3>Course:</h3></label>
+  						<?PHP 
+						if ($result22=mysqli_query($con,"SELECT * FROM `course` where `tid`=".$userarr[1]))
+  					{
+ 		 	if(mysqli_num_rows($result22)>0){ echo '<select style="width:80%" class="form-control" name="cid">';
+  				 		while ($rowewe=mysqli_fetch_row($result22))
+  			 			{
+ 		       				printf("<option value='%s'>%s</option>",$rowewe[0],$rowewe[1]);
+
+  			 			}echo '</select>';}
+  			 }
+					?>
+  						<label for="cdate"><h3>Date(YYYY-MM-DD):</h3></label>
+  						<input type="text" style="width:80%" class="form-control" name="cdate" id="cdate"  autocomplete="off">
+  					<input type="submit" value="Add a class!"  class="btn btn-success" style="width:80%">	
+  					</form>	
+					</div>
+				</div><br><br>
+				<button type="button" class="btn btn-info goto" style="width:90%" data="1,attend.php">-------Mark attendance</button><br><br>
 				
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Upload Homework</button><br><hr class="hr1"><br>
-				<button type="button" class="btn btn-success goto" style="width:90%" data="1,attend.php">Add an assessment</button><br><br><!-- notify for dates from here -->
-				<button type="button" class="btn btn-info goto" style="width:90%" data="1,attend.php">View assessments</button><br><br><!-- add marks here -->
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Add assignments</button><br><hr class="hr1"><br>
-				<button type="button" class="btn btn-success goto" style="width:90%" data="1,attend.php">Add a project</button><br><br>
+				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">---------Upload Homework</button><br><hr class="hr1"><br>
+				<button type="button" class="btn btn-success goto" style="width:90%" data="1,attend.php">------------Add an assessment</button><br><br><!-- notify for dates from here -->
+				<button type="button" class="btn btn-info goto" style="width:90%" data="1,attend.php">-----------View assessments</button><br><br><!-- add marks here -->
+				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">------------Post evaluation of assignments</button><br><hr class="hr1"><br>
+				<button type="button" class="btn btn-success goto" style="width:90%" data="1,attend.php">--------------Add a project</button><br><br>
 				<button type="button" class="btn btn-success" data-toggle="collapse" data-target="#newBatch" style="width:90%" >Create a new batch</button>
 				
 				<div id="newBatch" class="collapse">
@@ -131,9 +190,27 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
 					</div>
 				</div>
 				<br><br>
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,newCourse.php">Declare a holiday</button><br><br>
-				<button type="button" class="btn btn-danger goto" style="width:90%" data="1,newCourse.php">Call for a PTM</button><br><br>
-
+				<button type="button" class="btn btn-warning" style="width:90%"  data-toggle="collapse" data-target="#holiday">Declare a holiday</button><br>
+				<div id="holiday" class="collapse">
+					<div class="form-group">
+					<form method="post" action="index.php?action=holiday">
+  						<label for="hdate"><h3>Date(YYYY-MM-DD):</h3></label>
+  						<input type="text" style="width:80%" class="form-control" name="hdate" id="hdate"  autocomplete="off">
+  					<input type="submit" value="Declare a holiday!"  class="btn btn-success" style="width:80%">	
+  					</form>	
+					</div>
+				</div>
+				<br>
+				<button type="button" class="btn btn-danger" style="width:90%" data-toggle="collapse" id="ptabtn" data-target="#pta">Call for a PTM</button><br><br>
+				<div id="pta" class="collapse">
+					<div class="form-group">
+					<form method="post" action="index.php?action=ptm">
+  						<label for="pdate"><h3>Date(YYYY-MM-DD):</h3></label>
+  						<input type="text" style="width:80%" class="form-control" name="pdate" id="pdate"  autocomplete="off">
+  					<input type="submit" value="Notify!"  class="btn btn-danger" style="width:80%">	
+  					</form>	
+					</div>
+				</div>
 				
 			</div>
 		</div>
