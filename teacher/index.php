@@ -59,7 +59,7 @@ if (mysqli_connect_errno())
   {
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
   }
-if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
+if ($result2=mysqli_query($con,"SELECT * FROM `teachr` where `id`=".$userarr[1]))
   					{
  		 	$num_rows11 = mysqli_num_rows($result2);
   			
@@ -74,6 +74,25 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
   			 // Free result set
   			// mysqli_free_result($result2);
 }
+if(isset($_POST['cid'])){
+	if ($result2111=mysqli_query($con,"SELECT `batch` FROM `cnroll` where `cid`=".$_POST['cid']))
+  					{
+ 		 	//$num_rows11 = mysqli_num_rows($result2111);
+  			
+ 			 // Fetch one and one row
+  				 while ($roweer=mysqli_fetch_row($result2111))
+  			 {
+
+ 		       $batch=$roweer[0];
+
+  			 }
+  			 
+  			 // Free result set
+  			// mysqli_free_result($result2111);
+}
+}
+
+// $batch define
 ?>
 </div>
 	<div class="container"><center>
@@ -81,7 +100,7 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
 			<div class="col-sm-12" id="head">EdVu<img id="logout" src="../logout.png"></div>
 		</div><br><br>
 		<?PHP 
-		if(!isset($_GET['action'])){ echo 'Hi '.$fname[0].'! Glad to see you :)'; }
+		if(!isset($_GET['action'])){ echo 'Hi '.explode(' ', $_SESSION['name'])[0].'! Glad to see you :)'; }
 		else{
 			if($_GET['action']=='newBatch'){
 				if ($result5=mysqli_query($con,"INSERT INTO `abatches` (`name`) VALUES ('".$_POST['batchname']."');"))
@@ -100,6 +119,8 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
     		</div>';
   					
 			}elseif($_GET['action']=='holiday'){
+				if ($resultann=mysqli_query($con,"INSERT INTO `feed` (`tid`,`tname`,`title`,`exp_date`) VALUES ('".$userarr[1]."','".$_SESSION['name']."','<span class=imp>".$_POST['hdate']." has been declared a holiday!</span>','".$_POST['hdate']."');"))
+  					{}
 				if ($result5=mysqli_query($con,"INSERT INTO `days` (`date`,`type`,`tid`) VALUES ('".$_POST['hdate']."','2','".$userarr[1]."');"))
   					{
   						echo '<div class="panel panel-success" id="success">
@@ -108,6 +129,8 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
     		</div>';
   					}
 			}elseif($_GET['action']=='addClass'){
+				if ($resultann=mysqli_query($con,"INSERT INTO `feed` (`tid`,`tname`,`title`,`exp_date`,`batch`) VALUES ('".$userarr[1]."','".$_SESSION['name']."','There is a class by Prof. ".$_SESSION['name']." on ".$_POST['cdate']." ','".$_POST['cdate']."','".$batch."');"))
+  					{}
 				if ($result50=mysqli_query($con,"INSERT INTO `days` (`date`,`type`,`tid`,`cid`) VALUES ('".$_POST['cdate']."','1','".$userarr[1]."','".$_POST['cid']."');"))
   					{
   						echo '<div class="panel panel-success" id="success">
@@ -116,12 +139,27 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
     		</div>';
   					}
 			}elseif($_GET['action']=='ptm'){
+				if ($resultann=mysqli_query($con,"INSERT INTO `feed` (`tid`,`tname`,`title`,`exp_date`) VALUES ('".$userarr[1]."','".$_SESSION['name']."','<span class=imp>There is parent teacher meet with Prof. ".$_SESSION['name']." on ".$_POST['pdate']." </span>','".$_POST['pdate']."');"))
+  					{}
 				if ($result50=mysqli_query($con,"INSERT INTO `days` (`date`,`type`,`tid`) VALUES ('".$_POST['pdate']."','4','".$userarr[1]."');"))
   					{
   						echo '<div class="panel panel-danger" id="success">
       			<div class="panel-heading" id="success_content">Pta added!</div>
      
     		</div>';
+  					}
+			}elseif($_GET['action']=='addAssign'){
+				if ($resultann=mysqli_query($con,"INSERT INTO `feed` (`tid`,`tname`,`title`,`exp_date`) VALUES ('".$userarr[1]."','".$_SESSION['name']."','There will be an ".$_POST['aaname']." exam of ".$_POST['maxmarks']." marks on ".$_SESSION['name']." on ".$_POST['aadate']." ','".$_POST['aadate']."');"))
+  					{}
+				if ($result50=mysqli_query($con,"INSERT INTO `days` (`date`,`type`,`tid`,`cid`) VALUES ('".$_POST['aadate']."','3','".$userarr[1]."','".$_POST['cid']."');"))
+  					{if ($result51=mysqli_query($con,"INSERT INTO `tests` (`cid`,`tid`,`name`,`date`,`maxmarks`,`batch`) VALUES ('".$_POST['cid']."','".$userarr[1]."','".$_POST['aaname']."','".$_POST['aadate']."','".$_POST['maxmarks']."','".$_POST['abatch']."');")){
+  						echo '<div class="panel panel-success" id="success">
+  					
+      			<div class="panel-heading" id="success_content">Assessment added!</div>
+     
+    		</div>';
+  					}
+  						
   					}
 			}
 		}
@@ -148,7 +186,29 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
 					
 					</ul>
 				</div>
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">-------Upload Coursework</button><br><hr class="hr1"><br>
+				<button type="button" class="btn btn-warning" style="width:90%" data-toggle="collapse" data-target="#cwork">Upload Coursework</button><br>
+				<div id="cwork" class="collapse">
+					<div class="form-group">
+					<form method="post" action="addcw.php">
+  						<label for="usr"><h3>Select course:</h3></label>
+  						<?PHP 
+						if ($result221=mysqli_query($con,"SELECT * FROM `course` where `tid`=".$userarr[1]))
+  					{
+ 		 	if(mysqli_num_rows($result221)>0){ echo '<select style="width:80%" class="form-control" name="cid">';
+  				 		while ($rowewe1=mysqli_fetch_row($result221))
+  			 			{
+ 		       				printf("<option value='%s'>%s</option>",$rowewe1[0],$rowewe1[1]);
+
+  			 			}echo '</select>';}
+  			 }
+					?><label for="usr"><h3>Title:</h3></label>
+  						<input type="text" style="width:80%" class="form-control" name="title" id="title"  autocomplete="off">
+  						<label for="usr"><h3>url:</h3></label>
+  						<input type="text" style="width:80%" class="form-control" name="url" id="url"  autocomplete="off"><br>	
+  					<input type="submit" value="Update!"  class="btn btn-success" style="width:80%">	
+  					</form>	
+					</div>
+				</div><br><hr class="hr1"><br>
 				<button type="button" class="btn btn-success" data-toggle="collapse" data-target="#addClass" style="width:90%" >Schedule a class</button>
 				<div id="addClass" class="collapse">
 					<div class="form-group">
@@ -171,13 +231,69 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
   					</form>	
 					</div>
 				</div><br><br>
-				<button type="button" class="btn btn-info goto" style="width:90%" data="1,attend.php">-------Mark attendance</button><br><br>
+				<button type="button" class="btn btn-info " style="width:90%" data="1,attend.php">-------Mark attendance</button><br><br>
 				
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">---------Upload Homework</button><br><hr class="hr1"><br>
-				<button type="button" class="btn btn-success goto" style="width:90%" data="1,attend.php">------------Add an assessment</button><br><br><!-- notify for dates from here -->
-				<button type="button" class="btn btn-info goto" style="width:90%" data="1,attend.php">-----------View assessments</button><br><br><!-- add marks here -->
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">------------Post evaluation of assignments</button><br><hr class="hr1"><br>
-				<button type="button" class="btn btn-success goto" style="width:90%" data="1,attend.php">--------------Add a project</button><br><br>
+				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">---------Upload Homework Assignments</button><br><hr class="hr1"><br>
+				<button type="button" class="btn btn-success " style="width:90%" data-toggle="collapse" data-target="#addAssign">Add an assessment</button>
+				
+				<div id="addAssign" class="collapse">
+					<div class="form-group">
+					<form method="post" action="index.php?action=addAssign">
+  						<label for="aaname"><h3>Name of assessment:</h3></label>
+  						<input type="text" style="width:80%" class="form-control" name="aaname" id="aaname"  autocomplete="off">
+  						<label for="hdate"><h3>Course:</h3></label>
+  						<?PHP 
+						if ($result22=mysqli_query($con,"SELECT * FROM `course` where `tid`=".$userarr[1]))
+  					{
+ 		 	if(mysqli_num_rows($result22)>0){ echo '<select style="width:80%" class="form-control" name="cid">';
+  				 		while ($rowewe=mysqli_fetch_row($result22))
+  			 			{
+ 		       				printf("<option value='%s'>%s</option>",$rowewe[0],$rowewe[1]);
+
+  			 			}echo '</select>';}
+  			 }
+					?>
+  						<label for="abatch"><h3>Name of batch:</h3></label>
+							<?PHP 
+						if ($result223=mysqli_query($con,"SELECT * FROM `abatches` "))
+  					{
+ 		 	if(mysqli_num_rows($result223)>0){ echo '<select style="width:80%" class="form-control" name="abatch">';
+  				 		while ($roweweee=mysqli_fetch_row($result223))
+  			 			{
+ 		       				printf("<option value='%s'>%s</option>",$roweweee[0],$roweweee[0]);
+
+  			 			}echo '</select>';}
+  			 }
+					?>
+						<label for="maxmarks"><h3>Max marks:</h3></label>
+  						<input type="text" style="width:80%" class="form-control" name="maxmarks" id="maxmarks"  autocomplete="off">
+  						<label for="hdate"><h3>Date(YYYY-MM-DD):</h3></label>
+  						<input type="text" style="width:80%" class="form-control" name="aadate" id="aadate"  autocomplete="off">
+  					<input type="submit" value="Add!"  class="btn btn-success" style="width:80%">	
+  					</form>	
+					</div>
+				</div>
+				<br><br><!-- notify for dates from here -->
+				<button type="button" class="btn btn-info " style="width:90%" data-toggle="collapse" data-target="#viewAssign">View assessments</button><br><br>
+				<div id="viewAssign" class="collapse">
+					<ul>
+					<?PHP 
+						if ($result214=mysqli_query($con,"SELECT * FROM `tests` where `tid`=".$userarr[1]))
+  					{
+ 		 				
+  				 		while ($rowewe4l=mysqli_fetch_row($result214))
+  			 			{
+
+ 		       				echo '<li>'.$rowewe4l[1].'</li>';
+
+  			 			}
+  			 }
+					?>
+					
+					</ul>
+				</div><!-- add marks here -->
+				<button type="button" class="btn btn-warning " style="width:90%" data="1,attend.php">------------Post evaluation of assignments</button><br><hr class="hr1"><br>
+				<button type="button" class="btn btn-success " style="width:90%" data="1,attend.php">--------------	Add a project</button><br><br>
 				<button type="button" class="btn btn-success" data-toggle="collapse" data-target="#newBatch" style="width:90%" >Create a new batch</button>
 				
 				<div id="newBatch" class="collapse">

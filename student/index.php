@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">	
 <head>
-	<title>Teacher | EdVu</title>
+	<title>Student | EdVu</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	 <meta charset="utf-8"> 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -14,6 +14,9 @@
 	</style>
 	<script>
 	$(document).ready(function(){
+		$("#logout").click(function(){
+			window.location='../logout.php';
+		});
 			$(".goto").click(function(){
     		var string = $(this).attr('data').split(',') ;
         	var type= string[0];
@@ -26,9 +29,7 @@
         	
     	});
 
-		$("#logout").click(function(){
-			window.location='../logout.php';
-		});
+		
 	});
 	</script>
 	<meta name="theme-color" content="#42bcf4">
@@ -41,7 +42,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 include ('../gen.php');
 if(isset($_SESSION['usr'])){
 	$userarr=explode('.',$_SESSION['usr']);
-	if($userarr[0]!='t'){
+	if($userarr[0]!='s'){
 	header("Location: ../index.php");
 	die();}
 	}else{
@@ -64,7 +65,7 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
   			 {
 
  		       $sname=$rowe[1];
-
+ 		       $batch=$rowe[5];
   			 }
   			 $fname=explode(' ', $sname);  ////////first name////////////
   			 // Free result set
@@ -74,19 +75,39 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
 </div>
 	<div class="container"><center>
 		<div class="row">
-			<div class="col-sm-12" id="head">EdVu<img id="logout" src="../logout.png"></div>
-		</div>
-		<?PHP  echo '<br><br>Hi '.$fname[0].'! Glad to see you :)';  ?>
+			<div class="col-sm-12" id="head">EdVu<a href="../logout.php"><img id="logout" style="z-index:10" src="../logout.png"></a></div>
+		</div><br><br><button type="button" class="btn btn-warning goto" style="width:90%"  data-toggle="collapse" data-target="#menu">Menu</button><br><br>
+				<div id="menu" class="collapse">
+				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,myCourses.php">View enrolled Courses</button><br>
+				<button type="button" class="btn btn-warning " style="width:90%" >---View calendar</button>
+				<button type="button" class="btn btn-warning " style="width:90%" >---View performances</button><br>
+				</div>
+				
+				<br>
+		<?PHP  echo 'Hi '.$fname[0].'! Glad to see you :)';  ?>
 		<div class="row">
-			<div class="col-sm-12"><br><br>
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,newCourse.php">Create new course</button><br><br>
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,newCourse.php">View courses</button><br><br><!-- Add students option in this plus create new course -->
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,newCourse.php">Add a class</button><br><br>
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Mark attendance</button><br><br>
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Upload Coursework</button><br><br>
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">Upload Homework</button><br><br>
-				<button type="button" class="btn btn-danger goto" style="width:90%" data="1,newCourse.php">Call for a PTM</button><br><br>
-
+			<div class="col-sm-12"><br>
+				<div class="panel panel-info" style="background:#16d8ad">
+      <div class="panel-heading">Feed</div>
+      <div class="panel-body" style="background:#16d8ad">
+      	<?PHP
+      		if ($result223=mysqli_query($con,"SELECT * FROM `feed` WHERE (exp_date >= CURDATE()) AND (`batch`='".$batch."' OR `batch`='all') ORDER BY `id` DESC "))
+  					{
+ 		 	$num_rows223 = mysqli_num_rows($result223);
+  			$counter=0;
+ 			 // Fetch one and one row
+  				 while ($roweq=mysqli_fetch_row($result223))
+  			 {$counter++;
+  			 	echo '<h3>'.$roweq[3].'</h3>'.$roweq[4];
+  			 	if($counter<$num_rows223){echo '<hr class="hr1">';}
+  			 }
+  			 $fname=explode(' ', $sname);  ////////first name////////////
+  			 // Free result set
+  			// mysqli_free_result($result223);
+}
+      	?>
+      </div>
+    </div>
 				
 			</div>
 		</div>

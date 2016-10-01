@@ -56,6 +56,7 @@ if (mysqli_connect_errno())
   {
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
   }
+
 if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
   					{
  		 	$num_rows11 = mysqli_num_rows($result2);
@@ -79,6 +80,8 @@ if(isset($_GET['submit'])){
 							 while ($rower=mysqli_fetch_row($result34)){$cid=$rower[0];}
   					}
   						if ($result7=mysqli_query($con,"INSERT INTO `cnroll` (`cid`, `cname`, `tid`, `tname`, `batch`) VALUES ('".$cid."','".$_POST['cname']."','".$userarr[1]."','".$_SESSION['name']."','".$_POST['batch']."' );")){header("Location: index.php?action=createdNewCourse");
+              if ($resultann=mysqli_query($con,"INSERT INTO `feed` (`tid`,`tname`,`title`,`exp_date`,`batch`) VALUES ('".$userarr[1]."','".$_SESSION['name']."','You have been added to a new course ".$_POST['cname']." by instructor ".$_SESSION['name']."','".$_POST['date']."','".$_POST['batch']."');"))
+            {}
   							if ($result71=mysqli_query($con,"SELECT `id` from `stud` WHERE `batch`='".$_POST['batch']."' ")){
   							while ($rowerwo=mysqli_fetch_row($result71)){
   								if($result24=mysqli_query($con,"INSERT INTO `cenroll` (`cid`, `sid`, `grade`) VALUES ('".$cid."','".$rowerwo[0]."','0','".$_SESSION['name']."','".$_POST['date']."' );")){

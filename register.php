@@ -15,9 +15,16 @@
 	</style>
 	<script>
 		$(document).ready(function(){
-			var myvar='<center><h1>Account created!</h1><h2>user ID is<br><h1> s.8</h1></h2><button type="button" class="btn btn-success goto" style="width:81%" data="0,index.php">Go to login page</button></center>';
+			var myvar='<center><h1>Account created!</h1><h2>user ID is<br></h2></center>';
+      var btnvar ='<button type="button" class="btn btn-success goto" style="width:81%" data="0,index.php">Go to login page</button>';
 		<?PHP
 	include'gen.php';
+    $con = mysqli_connect($servername,$username,$password,$dbname);
+
+if (mysqli_connect_errno())
+  {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }
 	if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -43,12 +50,7 @@
 	}
 }elseif($_GET['submit']=='true'){
 	
-	$con = mysqli_connect($servername,$username,$password,$dbname);
 
-if (mysqli_connect_errno())
-  {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  }
   //form validation
   if($_POST['name']==null || $_POST['name']==''){
   	//code for name missing
@@ -137,7 +139,8 @@ if ($result=mysqli_query($con,$sql))
  		 	
  		 	
   	echo'$("#mainccontent").html(myvar);';
-   
+    echo'$("#mainccontent").append("'.$_POST['type'].'"+".'.$num_rows12.'");';
+    echo'$("#after").append(btnvar);';
   
   // Fetch one and one row
   // while ($row=mysqli_fetch_row($result))
@@ -157,8 +160,18 @@ mysqli_close($con);
 				if($("#acctype").val()=='p'){
 					$("#s_uid").fadeIn();
 					$("#ls_uid").fadeIn();
-				}
+				}else if($("#acctype").val()=='s'){
+          $("#batchk").fadeIn();
+        }
 			});
+      $("#acctype").blur(function(){
+        if($("#acctype").val()=='p'){
+          $("#s_uid").fadeIn();
+          $("#ls_uid").fadeIn();
+        }else if($("#acctype").val()=='s'){
+          $("#batchk").fadeIn();
+        }
+      });
 			$(".goto").click(function(){
     		var string = $(this).attr('data').split(',') ;
         	var type= string[0];
@@ -170,6 +183,7 @@ mysqli_close($con);
         	}
         	
     	});
+      // $("#email").focus(function(){alert($("#acctype").val());});
 		});
 	</script>
 	
@@ -178,7 +192,7 @@ mysqli_close($con);
 <body>
 	<div class="container"><center>
 		<div class="row">
-			<div class="col-sm-12" id="head">Ed-Vu</div>
+			<div class="col-sm-12" id="head">EdVu</div>
 		</div><br><br><br>
 		<div class="row"><!-- register screen-->
 		<button type="button" class="btn btn-success goto" style="width:81%" data="0,index.php">Go to Login page</button>
@@ -194,13 +208,28 @@ mysqli_close($con);
   					<input type="text" class="form-control" value="<?PHP if($_GET['submit']=='true'){echo $_POST['name'];}?>" id="name" name="name">
   					<label for="acctype"><h3>Account type:</h3></label>
   					<select class="form-control" name="type" id="acctype">
+            <option value="t">Teacher</option>  
   						<option value="s">Student</option>
-  						<option value="p">Parent</option>
-  						<option value="t">Teacher</option>	
+  						<option value="p">Parent</option>  
+  						
 					</select>
-          
+              
 					<label for="studid" id="ls_uid"><h3>Enter ward's userid:</h3></label>
   					<input type="text" class="form-control" value="<?PHP if($_GET['submit']=='true'){echo $_POST['studid'];}?>" id="s_uid" name="studid">
+            <select class="form-control" name="batch" id="batchk">
+              
+              <?PHP 
+            if ($result22=mysqli_query($con,"SELECT * FROM `abatches` "))
+            {
+      
+              while ($rowewe=mysqli_fetch_row($result22))
+              {
+                  printf("<option value='%s'>%s</option>",$rowewe[0],$rowewe[0]);
+
+              }
+         }
+          ?>  
+          </select>
 					<label for="email"><h3>email:</h3></label>
   					<input type="text" class="form-control" value="<?PHP if($_GET['submit']=='true'){echo $_POST['email'];}?>" id="email" name="email">
   					<label for="pwd"><h3>Password:</h3></label>
@@ -220,7 +249,7 @@ mysqli_close($con);
 			
 		</div>
 		<div class="row">
-			<div class="col-sm-12"></div>
+			<div class="col-sm-12" id="after"></div>
 		</div>
 	</center></div>
 </body>

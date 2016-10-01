@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">	
 <head>
-	<title>Teacher | EdVu</title>
+	<title>My Courses | EdVu</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	 <meta charset="utf-8"> 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -42,7 +42,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 include ('../gen.php');
 if(isset($_SESSION['usr'])){
 	$userarr=explode('.',$_SESSION['usr']);
-	if($userarr[0]!='p'){
+	if($userarr[0]!='s'){
 	header("Location: ../index.php");
 	die();}
 	}else{
@@ -56,18 +56,18 @@ if (mysqli_connect_errno())
   {
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
   }
-if ($result2=mysqli_query($con,"SELECT * FROM `parent` where `id`=".$userarr[1]))
+if ($result2=mysqli_query($con,"SELECT `batch` FROM `stud` where `id`=".$userarr[1]))
   					{
- 		 	$num_rows11 = mysqli_num_rows($result2);
+ 		 	// $num_rows11 = mysqli_num_rows($result2);
   			
  			 // Fetch one and one row
   				 while ($rowe=mysqli_fetch_row($result2))
   			 {
 
- 		       $sname=$rowe[1];
+ 		       $batch=$rowe[0];
 
   			 }
-  			 $fname=explode(' ', $sname);  ////////first name////////////
+  			
   			 // Free result set
   			// mysqli_free_result($result2);
 }
@@ -76,26 +76,33 @@ if ($result2=mysqli_query($con,"SELECT * FROM `parent` where `id`=".$userarr[1])
 	<div class="container"><center>
 		<div class="row">
 			<div class="col-sm-12" id="head">EdVu<a href="../logout.php"><img id="logout" style="z-index:10" src="../logout.png"></a></div>
-		</div><br><br><button type="button" class="btn btn-warning goto" style="width:90%"  data-toggle="collapse" data-target="#menu">Menu</button><br><br>
-				<div id="menu" class="collapse">
-				<button type="button" class="btn btn-warning " style="width:90%" >View enrolled Courses</button><br>
-				<button type="button" class="btn btn-warning " style="width:90%" >View calendar</button>
-				<button type="button" class="btn btn-warning " style="width:90%" >View performances</button><br>
-				</div>
+		</div><br><br>
+		<?PHP 
+			if ($result24=mysqli_query($con,"SELECT `cid`,`cname` FROM `cnroll` where `batch`='".$batch."'"))
+  					{
+ 		 	// $num_rows11 = mysqli_num_rows($result2);
+  			
+ 			 // Fetch one and one row
+  				 while ($rowere=mysqli_fetch_row($result24))
+  			 {
+
+ 		       echo '<button type="button" class="btn btn-warning goto" data="0,course.php?cid='.$rowere[0].'" style="width:90%;margin:10px">'.$rowere[1].'</button>';
+
+  			 }
+  			 
+}
+		?>
+		
+
+		<br><br>
+				
 				
 				<br>
-		<?PHP  echo 'Hi '.$fname[0].'! Glad to see you :)';  ?>
 		<div class="row">
-			<div class="col-sm-12"><br>
-				<div class="panel panel-info" style="background:#16d8ad">
-      <div class="panel-heading">Feed</div>
-      <div class="panel-body" style="background:#16d8ad"></div>
-    </div>
-				
-			</div>
+			
 		</div>
 		<div class="row">
-			<div class="col-sm-12"></div>
+			<div class="col-sm-12"><?PHP echo 'Name: '.$_SESSION['name'].'<br>Batch:'.$batch; ?></div>
 		</div>
 	</center></div>
 </body>
