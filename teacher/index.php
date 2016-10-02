@@ -14,6 +14,9 @@
 	</style>
 	<script>
 	$(document).ready(function(){
+			$(".nowr").click(function(){
+				alert('This function is not available yet.');
+			});
 			$(".btn").click(function(){
 				$("#success").fadeOut();
 			});
@@ -231,9 +234,9 @@ if(isset($_POST['cid'])){
   					</form>	
 					</div>
 				</div><br><br>
-				<button type="button" class="btn btn-info " style="width:90%" data="1,attend.php">-------Mark attendance</button><br><br>
+				<button type="button" class="btn btn-info nowr" style="width:90%" data="1,attend.php">-------Mark attendance</button><br><br>
 				
-				<button type="button" class="btn btn-warning goto" style="width:90%" data="1,attend.php">---------Upload Homework Assignments</button><br><hr class="hr1"><br>
+				<button type="button" class="btn btn-warning nowr" style="width:90%" data="1,attend.php">---------Upload Homework Assignments</button><br><hr class="hr1"><br>
 				<button type="button" class="btn btn-success " style="width:90%" data-toggle="collapse" data-target="#addAssign">Add an assessment</button>
 				
 				<div id="addAssign" class="collapse">
@@ -292,9 +295,9 @@ if(isset($_POST['cid'])){
 					
 					</ul>
 				</div><!-- add marks here -->
-				<button type="button" class="btn btn-warning " style="width:90%" data="1,attend.php">------------Post evaluation of assignments</button><br><hr class="hr1"><br>
-				<button type="button" class="btn btn-success " style="width:90%" data="1,attend.php">--------------	Add a project</button><br><br>
-				<button type="button" class="btn btn-success" data-toggle="collapse" data-target="#newBatch" style="width:90%" >Create a new batch</button>
+				<button type="button" class="btn btn-warning nowr" style="width:90%" data="1,attend.php">------------Post evaluation of assignments</button><br><hr class="hr1"><br>
+				<!-- <button type="button" class="btn btn-success nowr" style="width:90%" data="1,attend.php">	Add a project</button><br><br> -->
+				<button type="button" class="btn btn-success nowr" data-toggle="collapse" data-target="#newBatch" style="width:90%" >Create a new batch</button>
 				
 				<div id="newBatch" class="collapse">
 					<div class="form-group">

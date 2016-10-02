@@ -14,6 +14,8 @@
 	</style>
 	<script>
 	$(document).ready(function(){
+
+		$("h4 a").attr('target','_blank');
 		$("#logout").click(function(){
 			window.location='../logout.php';
 		});
@@ -98,7 +100,7 @@ if ($result2=mysqli_query($con,"SELECT * FROM `stud` where `id`=".$userarr[1]))
  			 // Fetch one and one row
   				 while ($roweq=mysqli_fetch_row($result223))
   			 {$counter++;
-  			 	echo '<h3>'.$roweq[3].'</h3>'.$roweq[4];
+  			 	echo '<h4>'.$roweq[3].'</h4>'.$roweq[4];
   			 	if($counter<$num_rows223){echo '<hr class="hr1">';}
   			 }
   			 $fname=explode(' ', $sname);  ////////first name////////////

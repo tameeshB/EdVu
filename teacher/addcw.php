@@ -48,7 +48,7 @@ if ($result2=mysqli_query($con,"SELECT `batch` FROM `cnroll` where `cid`=".$_POS
 if ($resultann=mysqli_query($con,"INSERT INTO `cwork` (`tid`,`cid`,`title`,`url`) VALUES ('".$userarr[1]."','".$_POST['cid']."','".$_POST['title']."','".$_POST['url']."');"))
             {}
 if ($resultannq=mysqli_query($con,"INSERT INTO `feed` (`tid`,`tname`,`title`,`exp_date`,`batch`) VALUES ('".$userarr[1]."','".$_SESSION['name']."','<a href=".$_POST['url']." >Professor ".$_SESSION['name']." added ".$_POST['title']." to the coursework on ".$cname." </a>',CURDATE() + INTERVAL 5 DAY,'".$batch."');"))
-            {
+            {header("Location: index.php");
 }
 
         

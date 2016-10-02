@@ -91,7 +91,7 @@ if ($result2=mysqli_query($con,"SELECT `tname` FROM `teachr` where `id`=".$tid))
 		<div class="panel panel-primary">
       <div class="panel-heading">Coursework</div>
       <div class="panel-body">
-    </div>
+    
 		<?PHP 
 			if ($result224=mysqli_query($con,"SELECT `title`,`descr`,`url` FROM `cwork` where `cid`=".$_GET['cid']." ORDER BY `id` DESC"))
   					{
@@ -104,7 +104,7 @@ if ($result2=mysqli_query($con,"SELECT `tname` FROM `teachr` where `id`=".$tid))
   			 }
   			 
 }
-		?>
+		?></div>
 		</div>
 
 		<br><br>
