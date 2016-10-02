@@ -297,7 +297,7 @@ if(isset($_POST['cid'])){
 				</div><!-- add marks here -->
 				<button type="button" class="btn btn-warning nowr" style="width:90%" data="1,attend.php">------------Post evaluation of assignments</button><br><hr class="hr1"><br>
 				<!-- <button type="button" class="btn btn-success nowr" style="width:90%" data="1,attend.php">	Add a project</button><br><br> -->
-				<button type="button" class="btn btn-success nowr" data-toggle="collapse" data-target="#newBatch" style="width:90%" >Create a new batch</button>
+				<button type="button" class="btn btn-success" data-toggle="collapse" data-target="#newBatch" style="width:90%" >Create a new batch</button>
 				
 				<div id="newBatch" class="collapse">
 					<div class="form-group">
