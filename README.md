@@ -26,3 +26,8 @@ This is the Mobile  Web-app that I built from scratch in #hackforIndia hackathon
 ● News feed shows all upcoming events and automatically removes expired events.
 ● #Remotely answering doubts and discussions.
 (# = Pending feature)
+
+
+Live version oh http://ht.tameesh.in/
+Use username s.1 for Student and t.1 for teacher
+Password is set to "pswd" (without quotes) for all accounts.
